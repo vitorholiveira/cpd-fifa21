@@ -35,5 +35,12 @@ void Hash_tags::insert(string tag, unsigned int sofifa_id){
 }
 
 Tag* Hash_tags::query(string tag){
-
+    int key = f_hash(tag);
+    Tag* current = table[key];
+    while(current != NULL){
+        if(current->tag == tag)
+            return current;
+        current = current->tail;
+    }
+    return current;
 }

@@ -56,18 +56,35 @@ void Hash_tags::insert(string tag, unsigned int sofifa_id){
         t_new->ids.push_back(sofifa_id);
         t_new->tag = tag;
         current->tail = t_new;
-    } else {
+    } else if(sofifa_id != current->ids.back()){
         current->ids.push_back(sofifa_id);
     }
 }
 
-Tag* Hash_tags::query(string tag){
+vector<unsigned int> Hash_tags::query(string tag){
     int key = f_hash(tag);
     Tag* current = table[key];
     while(current != NULL){
         if(current->tag == tag)
-            return current;
+            return current->ids;
         current = current->tail;
     }
-    return current;
+    vector<unsigned int> v;
+    return v;
+}
+
+vector<unsigned int> Hash_tags::intersec_tags(vector<string> tags){
+    vector<unsigned int> v = query(tags[0]);
+    for(int i = 1; i < tags.size(); i++)
+        v = intersec(v, query(tags[i]));
+    return v;
+}
+
+vector<unsigned int> Hash_tags::intersec(vector<unsigned int> v0, vector<unsigned int> v1){
+    vector<unsigned int> v2;
+    for(int i = 0; i < v0.size(); i++)
+        for(int j = 0; j < v1.size(); j++)
+            if(v0[i] == v1[j])
+                v2.push_back(v0[i]);
+    return v2;
 }

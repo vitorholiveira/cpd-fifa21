@@ -27,5 +27,7 @@ class Hash_tags {
         // METHODS
         int load(string filename);
         void insert(string tag, unsigned int sofifa_id);
-        Tag* query(string tag);
+        vector<unsigned int> query(string tag);
+        vector<unsigned int> intersec(vector<unsigned int> v0, vector<unsigned int> v1);
+        vector<unsigned int> intersec_tags(vector<string> tags);
 };

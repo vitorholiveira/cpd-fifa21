@@ -1,12 +1,11 @@
 #include "hashtable_tags.h"
 
-Hash_tags::Hash_tags(int n){
+HashTags::HashTags(int n){
     len = n;
     table.resize(n);
 }
 
-
-int Hash_tags::load(string filename){
+int HashTags::load(string filename){
     unsigned int sofifa_id;
     string line, element, tag;
     fstream file(filename, ios::in);
@@ -36,7 +35,7 @@ int Hash_tags::load(string filename){
     return 1;
 }
 
-void Hash_tags::insert(string tag, unsigned int sofifa_id){
+void HashTags::insert(string tag, unsigned int sofifa_id){
     int key = f_hash(tag);
     Tag* current = table[key];
 
@@ -61,7 +60,7 @@ void Hash_tags::insert(string tag, unsigned int sofifa_id){
     }
 }
 
-vector<unsigned int> Hash_tags::query(string tag){
+vector<unsigned int> HashTags::query(string tag){
     int key = f_hash(tag);
     Tag* current = table[key];
     while(current != NULL){
@@ -73,14 +72,14 @@ vector<unsigned int> Hash_tags::query(string tag){
     return v;
 }
 
-vector<unsigned int> Hash_tags::intersec_tags(vector<string> tags){
+vector<unsigned int> HashTags::intersec_tags(vector<string> tags){
     vector<unsigned int> v = query(tags[0]);
     for(int i = 1; i < tags.size(); i++)
         v = intersec(v, query(tags[i]));
     return v;
 }
 
-vector<unsigned int> Hash_tags::intersec(vector<unsigned int> v0, vector<unsigned int> v1){
+vector<unsigned int> HashTags::intersec(vector<unsigned int> v0, vector<unsigned int> v1){
     vector<unsigned int> v2;
     for(int i = 0; i < v0.size(); i++)
         for(int j = 0; j < v1.size(); j++)

@@ -13,7 +13,7 @@ typedef struct t {
     t* tail = NULL;
 } Tag;
 
-class Hash_tags {
+class HashTags {
     unsigned int len;
     vector<Tag*> table;
     int f_hash(string tag){
@@ -23,7 +23,7 @@ class Hash_tags {
     };
     public:
         // CONSTRUCTOR
-        Hash_tags(int n);
+        HashTags(int n);
         // METHODS
         int load(string filename);
         void insert(string tag, unsigned int sofifa_id);

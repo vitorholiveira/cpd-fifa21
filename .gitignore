@@ -33,3 +33,7 @@
 
 # Files
 *.csv
+
+# Others
+main
+.vscode

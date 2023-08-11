@@ -1,5 +1,6 @@
 #include "hashtable_players.cpp"
 #include "hashtable_tags.cpp"
+#include "trie_players.cpp"
 
 int invalid_input(string input);
 
@@ -23,7 +24,7 @@ int main(int argc, char **argv){
         return 2;
     }
 
-    Hash_tags hash_tags(len);
+    HashTags hash_tags(len);
 
     if(!hash_tags.load("tags.csv")) {
         cout << "Can't open CSV file." << endl;
@@ -32,6 +33,8 @@ int main(int argc, char **argv){
 
     vector<unsigned int> v;
     v = hash_tags.query("Chinese Super League");
+
+    /*
     int j = 0;
     cout << "Chinese Super League" << endl;
     for(int i = 0; i < v.size(); i++){
@@ -40,7 +43,26 @@ int main(int argc, char **argv){
     }
     cout << j << ' ' << v.size();
     
+    vector<unsigned int> v2;
+    Trie trie;
+    trie.load("players.csv");
+    v2 = trie.query("Fer");
+    Player p;
+    for(int i = 0; i < v2.size(); i++)
+        cout << v2[i] << endl;
+    */
+    Trie trie;
+    trie.load("players.csv");
+    v = trie.query("Ney");
 
+    Player* p;
+    for(int i = 0; i < v.size(); i++){
+        cout << v[i] << endl;
+        p = hash_fifa.query(v[i]);
+        cout << p->name << endl;
+    }
+
+    
     return 0;
 }
 

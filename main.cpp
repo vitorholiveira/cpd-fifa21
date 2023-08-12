@@ -53,7 +53,7 @@ int main(int argc, char **argv){
     */
     Trie trie;
     trie.load("players.csv");
-    v = trie.query("Ney");
+    v = trie.query("Fer");
 
     Player* p;
     for(int i = 0; i < v.size(); i++){

@@ -29,24 +29,25 @@ vector<unsigned int> Trie::query(string prefix){
     Node* current = root;
     Node* aux;
     vector<unsigned int> v;
-    vector<unsigned int> v2;
+
     for(int i = 0; i < prefix.length(); i++){
         current = is_child(prefix[i], current->tail);
         if(current == NULL)
             return v;
     }
-    v_query.clear();
-    v_query.insert(v_query.end(), current->ids.begin(), current->ids.end());
-    query_aux(current->tail);
-    return v_query;
+
+    v.insert(v.end(), current->ids.begin(), current->ids.end());
+    v = query_aux(current->tail, v);
+    return v;
 }
 
-void Trie::query_aux(vector<Node*> nodes){
+vector<unsigned int> Trie::query_aux(vector<Node*> nodes, vector<unsigned int> v){
     Node* aux;
     for(int i = 0; i < nodes.size(); i++){
-        v_query.insert(v_query.end(), nodes[i]->ids.begin(), nodes[i]->ids.end());
-        query_aux(nodes[i]->tail);
+        v.insert(v.end(), nodes[i]->ids.begin(), nodes[i]->ids.end());
+        v = query_aux(nodes[i]->tail, v);
     }
+    return v;
 }
 
 int Trie::load(string filename){

@@ -16,7 +16,7 @@ typedef struct p{
     p *tail = NULL;
 } Player;
 
-class Hash {
+class HashPlayers{
     unsigned int len;
     vector<Player*> table;
     int f_hash(unsigned int n){
@@ -24,7 +24,7 @@ class Hash {
     };
     public:
         // CONSTRUCTOR
-        Hash(int n);
+        HashPlayers(int n);
         // METHODS
         int load(string filename);
         void insert(Player p);

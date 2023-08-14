@@ -1,13 +1,13 @@
 #include "hashtable_players.h"
 
 // Hash constructor
-Hash::Hash(int n){
+HashPlayers::HashPlayers(int n){
     len = n;
     table.resize(n);
 }
 
 // Insere o jogador
-void Hash::insert(Player p){
+void HashPlayers::insert(Player p){
     int key = f_hash(p.id);
     Player* current = table[key];
     Player* p_new = new Player;
@@ -28,7 +28,7 @@ void Hash::insert(Player p){
 
 // Consulta o id e retorna um ponteiro para o jogador. Se o jogador não foi encontrado retorna NULL;
 // MODIFICADA E NÃO TESTADA
-Player* Hash::query(unsigned int id){
+Player* HashPlayers::query(unsigned int id){
     int key = f_hash(id);
     Player* current = table[key];
     while(current != NULL){
@@ -41,7 +41,7 @@ Player* Hash::query(unsigned int id){
 
 // Lê o arquivo csv dado e carrega na hash table
 // Se conseguiu abrir o arquivo retorna 1, caso contrário retorna 0.
-int Hash::load(string filename){
+int HashPlayers::load(string filename){
     Player p;
     string line, element, pos;
     fstream file(filename, ios::in);
@@ -83,7 +83,7 @@ int Hash::load(string filename){
 
 // Adiciona uma nova avaliação para determinado jogador
 // NÃO TESTADA
-void Hash::add_rating(unsigned int id, float rating){
+void HashPlayers::add_rating(unsigned int id, float rating){
     Player* p = query(id);
     if(p == NULL)
         return;

@@ -1,11 +1,9 @@
-#include "hashtable_players.cpp"
-#include "hashtable_tags.cpp"
-#include "trie_players.cpp"
-
-int invalid_input(string input);
+#include "main.h"
+#include <chrono>
 
 int main(int argc, char **argv){
-    int len;
+    int len, open;
+    chrono::time_point<chrono::system_clock> begin, end;
 
     if(argc < 2 || invalid_input(argv[1])){
         cout << endl << "=====================Input errado!=====================" << endl;
@@ -17,61 +15,20 @@ int main(int argc, char **argv){
     }
     len = stoi(argv[1]);
 
-    Hash hash_fifa(len);
-    
-    if(!hash_fifa.load("players.csv")) {
-        cout << "Can't open CSV file." << endl;
-        return 2;
-    }
-
+    HashPlayers hash_players(len);
     HashTags hash_tags(len);
 
-    if(!hash_tags.load("tags.csv")) {
-        cout << "Can't open CSV file." << endl;
-        return 2;
-    }
+    begin = chrono::system_clock::now();
+    open = load(&hash_players, &hash_tags);
+    end = chrono::system_clock::now();
+    chrono::duration<double> time = end - begin;
 
-    vector<unsigned int> v;
-    v = hash_tags.query("Chinese Super League");
+    cout << "Tempo de inicializacao: " << time.count() << "s" << endl;
 
-    /*
-    int j = 0;
-    cout << "Chinese Super League" << endl;
-    for(int i = 0; i < v.size(); i++){
-        cout << v[i] << endl;
-        j++;
-    }
-    cout << j << ' ' << v.size();
-    
-    vector<unsigned int> v2;
-    Trie trie;
-    trie.load("players.csv");
-    v2 = trie.query("Fer");
-    Player p;
-    for(int i = 0; i < v2.size(); i++)
-        cout << v2[i] << endl;
-    */
-    Trie trie;
-    trie.load("players.csv");
-    v = trie.query("Fer");
+    if(!open) return 2;
 
-    Player* p;
-    for(int i = 0; i < v.size(); i++){
-        cout << v[i] << endl;
-        p = hash_fifa.query(v[i]);
-        cout << p->name << endl;
-    }
+    Player* p = hash_players.query(135507);
+    cout << endl << p->name << ' ' << p->id << ' ' << p->rating << ' ' << p->rating_count << endl;
 
-    
-    return 0;
-}
-
-int invalid_input(string input){
-    int i = 0;
-    while(input[i]){
-        if(input[i] < '0' || input[i] > '9')
-            return 1;
-        i++;
-    }
     return 0;
 }

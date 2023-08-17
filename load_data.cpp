@@ -13,31 +13,32 @@ int load(HashPlayers *hash_players, Trie* trie_players, HashTags *hash_tags){
 }
 
 int load_players(HashPlayers *hash_players, Trie* trie_players, string filename){
+    Player p;
+    string element;
     fstream file("players.csv", ios::in);
+    
     if(!file.is_open()){
         cout << "Nao foi possivel abrir o arquivo " << filename << endl;
         return 0;
     }
 
-    Player p;
-    string element;
-
     getline(file, element);
-          // SOFIFA ID
+        // SOFIFA ID
     while(getline(file, element, ',')){
         p.id = stoi(element);
         // NAME
         getline(file, p.name, ',');
         // POSITIONS
         getline(file, element);
-        if(element[0] == '"'){ // remove aspas
-            element = &element[1]; 
-            element[element.length() - 1] = '\0';
-        }
-        stringstream positions(element);
-        while(getline(positions, element, ',')){
-            if(element[0] == ' ') element = &element[1]; // remove espaço
-            p.positions.push_back(element);
+        if(element[0] != '"'){
+            p.positions.push_back(element); // tem só uma posição
+        }else{
+            element[element.length() - 1] = '\0'; // remove fecha aspas
+            stringstream positions(element);
+            while(getline(positions, element, ',')){
+                element = &element[1]; // remove espaço e aspa abre aspas na primeira exec
+                p.positions.push_back(element);
+            }
         }
         // INSERE DADOS
         hash_players->insert(p);
@@ -49,18 +50,18 @@ int load_players(HashPlayers *hash_players, Trie* trie_players, string filename)
 }
 
 int load_users_ratings(HashPlayers *hash_players, string filename){
+    string element;
+    int sofifa_id, user_id;
+    float rating;
     fstream file("rating.csv", ios::in);
+
     if(!file.is_open()){
         cout << "Nao foi possivel abrir o arquivo " << filename << endl;
         return 0;
     }
 
-    string element;
-    int sofifa_id, user_id;
-    float rating;
-
     getline(file, element);
-          // USER ID
+        // USER ID
     while(getline(file, element, ',')){
         // SOFIFA ID
         getline(file, element, ',');
@@ -79,12 +80,14 @@ int load_tags(HashTags *hash_tags, string filename){
     unsigned int sofifa_id;
     string element, tag;
     fstream file(filename, ios::in);
+
     if(!file.is_open()){
         cout << "Nao foi possivel abrir o arquivo " << filename << endl;
         return 0;
     }
+
     getline(file, element);
-          // USER ID - ignorar
+        // USER ID - ignorar
     while(getline(file, element)) {
         // SOFIFA ID
         getline(file, element, ',');

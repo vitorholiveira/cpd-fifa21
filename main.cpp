@@ -22,8 +22,11 @@ int main(int argc, char **argv){
         return 2;
     }
 
-    //Player* p = hash_players.query(135507);
-    //cout << endl << p->name << ' ' << p->id << ' ' << p->rating << ' ' << p->rating_count << endl;
+    Player* p = hash_players.query(200458);
+    cout << endl << p->name << ' ' << p->id << ' ' << p->rating << ' ' << p->rating_count << ' ';
+    for(int i = 0; i < p->positions.size() - 1; i++)
+        cout << p->positions[i] << ',';
+    cout <<  p->positions[p->positions.size() - 1] << endl;
 
     return 0;
 }

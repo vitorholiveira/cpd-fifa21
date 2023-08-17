@@ -39,48 +39,6 @@ Player* HashPlayers::query(unsigned int id){
     return current;
 }
 
-// Lê o arquivo csv dado e carrega na hash table
-// Se conseguiu abrir o arquivo retorna 1, caso contrário retorna 0.
-int HashPlayers::load(string filename){
-    Player p;
-    string line, element, pos;
-    fstream file(filename, ios::in);
-    if(!file.is_open()) {
-        return 0;
-    } 
-    getline(file, line);
-
-    while(getline(file, line)) {
-        stringstream line_aux(line);
-
-        // ID
-        getline(line_aux, element, ',');
-        stringstream id(element);
-        id >> p.id;
-
-        // NAME
-        getline(line_aux, p.name, ',');
-
-        // POSITIONS
-        getline(line_aux, element);
-        if(element[0] == '"'){ // remove aspas
-            element = &element[1]; 
-            element[element.length() - 1] = '\0';
-        }
-        stringstream positions(element);
-        while(getline(positions, pos, ',')){
-            if(pos[0] == ' ') pos = &pos[1]; // remove espaço
-            p.positions.push_back(pos);
-        }
-
-        insert(p);
-        p.positions.clear();
-    }
-
-    file.close();
-    return 1;
-}
-
 // Adiciona uma nova avaliação para determinado jogador
 // NÃO TESTADA
 void HashPlayers::add_rating(unsigned int id, float rating){

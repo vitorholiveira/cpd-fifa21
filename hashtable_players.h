@@ -26,7 +26,6 @@ class HashPlayers{
         // CONSTRUCTOR
         HashPlayers(int n);
         // METHODS
-        int load(string filename);
         void insert(Player p);
         void add_rating(unsigned int id, float rating);
         Player* query(unsigned int id);

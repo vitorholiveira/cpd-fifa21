@@ -25,7 +25,6 @@ class HashTags {
         // CONSTRUCTOR
         HashTags(int n);
         // METHODS
-        int load(string filename);
         void insert(string tag, unsigned int sofifa_id);
         vector<unsigned int> query(string tag);
         vector<unsigned int> intersec(vector<unsigned int> v0, vector<unsigned int> v1);

@@ -5,36 +5,6 @@ HashTags::HashTags(int n){
     table.resize(n);
 }
 
-int HashTags::load(string filename){
-    unsigned int sofifa_id;
-    string line, element, tag;
-    fstream file(filename, ios::in);
-    if(!file.is_open()) {
-        return 0;
-    } 
-    getline(file, line);
-
-    while(getline(file, line)) {
-        stringstream line_aux(line);
-
-        // USER ID - ignorar
-        getline(line_aux, element, ',');
-
-        // SOFIFA ID
-        getline(line_aux, element, ',');
-        sofifa_id = stoi(element);
-
-        // TAG
-        getline(line_aux, tag, '\n');
-
-        // INSERT TAG
-        insert(tag, sofifa_id);
-    }
-
-    file.close();
-    return 1;
-}
-
 void HashTags::insert(string tag, unsigned int sofifa_id){
     int key = f_hash(tag);
     Tag* current = table[key];

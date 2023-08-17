@@ -49,33 +49,3 @@ vector<unsigned int> Trie::query_aux(vector<Node*> nodes, vector<unsigned int> v
     }
     return v;
 }
-
-int Trie::load(string filename){
-    unsigned int sofifa_id;
-    string name;
-    string line, element, pos;
-    fstream file(filename, ios::in);
-    if(!file.is_open()) {
-        return 0;
-    } 
-    getline(file, line);
-
-    while(getline(file, line)) {
-        stringstream line_aux(line);
-
-        // ID
-        getline(line_aux, element, ',');
-        sofifa_id = stoi(element);
-
-        // NAME
-        getline(line_aux, name, ',');
-
-        // POSITIONS -  ignora
-        getline(line_aux, element);
-
-        insert(name, sofifa_id);
-    }
-
-    file.close();
-    return 1;
-}

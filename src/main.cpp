@@ -1,4 +1,4 @@
-#include "load_data.cpp"
+#include "./functions/load_data.cpp"
 #include <chrono>
 
 int main(int argc, char **argv){

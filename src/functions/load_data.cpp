@@ -1,21 +1,21 @@
-#include "hashtable_players.cpp"
-#include "hashtable_tags.cpp"
-#include "trie_players.cpp"
+#include "../data_structures/hashtable_players/hashtable_players.cpp"
+#include "../data_structures/hashtable_tags/hashtable_tags.cpp"
+#include "../data_structures/trie_players/trie_players.cpp"
 
 int load_players(HashPlayers *hash_players, Trie* trie_players, string filename);
 int load_users_ratings(HashPlayers *hash_players, string filename);
 int load_tags(HashTags *hash_tags, string filename);
 
 int load(HashPlayers *hash_players, Trie* trie_players, HashTags *hash_tags){
-    return (load_tags(hash_tags, "tags.csv") &&
-            load_players(hash_players, trie_players, "players.csv") &&
-            load_users_ratings(hash_players, "rating.csv"));
+    return (load_tags(hash_tags, "../data/tags.csv") &&
+            load_players(hash_players, trie_players, "../data/players.csv") &&
+            load_users_ratings(hash_players, "../data/rating.csv"));
 }
 
 int load_players(HashPlayers *hash_players, Trie* trie_players, string filename){
     Player p;
     string element;
-    fstream file("players.csv", ios::in);
+    fstream file(filename, ios::in);
     
     if(!file.is_open()){
         cout << "Nao foi possivel abrir o arquivo " << filename << endl;
@@ -53,7 +53,7 @@ int load_users_ratings(HashPlayers *hash_players, string filename){
     string element;
     int sofifa_id, user_id;
     float rating;
-    fstream file("rating.csv", ios::in);
+    fstream file(filename, ios::in);
 
     if(!file.is_open()){
         cout << "Nao foi possivel abrir o arquivo " << filename << endl;
@@ -88,7 +88,7 @@ int load_tags(HashTags *hash_tags, string filename){
 
     getline(file, element);
         // USER ID - ignorar
-    while(getline(file, element)) {
+    while(getline(file, element, ',')) {
         // SOFIFA ID
         getline(file, element, ',');
         sofifa_id = stoi(element);

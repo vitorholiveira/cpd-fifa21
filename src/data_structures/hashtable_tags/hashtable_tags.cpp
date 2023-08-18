@@ -1,4 +1,4 @@
-#include "hashtable_tags.h"
+#include "hashtable_tags.hpp"
 
 HashTags::HashTags(int n){
     len = n;

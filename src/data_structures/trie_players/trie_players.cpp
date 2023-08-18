@@ -1,4 +1,4 @@
-#include "trie_players.h"
+#include "trie_players.hpp"
 
 void Trie::insert(string name, unsigned int id){
     Node* current = root;

@@ -1,4 +1,4 @@
-#include "hashtable_players.h"
+#include "hashtable_players.hpp"
 
 // Hash constructor
 HashPlayers::HashPlayers(int n){

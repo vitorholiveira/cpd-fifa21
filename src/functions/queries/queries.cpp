@@ -1,7 +1,7 @@
 #include "queries.hpp"
 
 void query_players(string command, HashPlayers *hash_players, Trie *trie_players){
-    vector<unsigned int> ids = trie_players->query(command.substr(6,command.length() - 1));
+    vector<unsigned int> ids = trie_players->query(command.substr(7,command.length() - 1));
     print_players_table(ids, hash_players);
 }
 
@@ -18,6 +18,7 @@ void query_top_positions(string command, HashPlayers *hash_players, HashTags *ha
     
     if(size == 0){
         cout << "O tamanho do ranking esta incorreto!" << endl;
+        return;
     }
     vector<string> args = read_args(command);
     if(args.size() > 1 || !is_position(args[0])){
@@ -43,4 +44,15 @@ void query_pos_and_tags(string command, HashPlayers *hash_players, HashTags *has
     vector<unsigned int> ids = hash_tags->intersec_tags(args);
     print_players_table(ids, hash_players);
 
+}
+
+void query_sofifaid(string command, HashPlayers *hash_players){
+    string id_str = command.substr(9,command.length() - 1);
+    if(!is_number(command.substr(9,command.length() - 1))){
+        cout << "ID do jogador não é um número" << endl;
+        return;
+    }
+    vector<unsigned int> ids;
+    ids.push_back(stoi(id_str));
+    print_players_table(ids, hash_players);
 }

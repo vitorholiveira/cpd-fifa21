@@ -22,7 +22,6 @@ vector<string> read_args(string command){
     vector<string> args;
 
     while(getline(s,element,'\'')){
-        cout << 'a' << endl;
         getline(s,element,'\'');
         args.push_back(element);
     }
@@ -58,4 +57,16 @@ void print_players_table(vector<unsigned int> ids, HashPlayers *hash){
             cout << p->positions[p->positions.size() - 1] << '\t' << p->rating << '\t' << p->rating_count << endl;
         }
     }
+}
+
+string format_command(string command){
+    string formated;
+    for(int i = 0; i < command.length(); i++){
+        if(isspace(command[i]))
+            formated += ' ';
+        else
+            formated += command[i];
+        while(isspace(command[i]) && isspace(command[i+1]))i++;
+    }
+    return formated;
 }

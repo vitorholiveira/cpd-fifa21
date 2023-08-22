@@ -17,15 +17,25 @@ int ranking_size(string command){
 }
 
 vector<string> read_args(string command){
-    stringstream s(command);
-    string element;
-    vector<string> args;
-
-    while(getline(s,element,'\'')){
-        getline(s,element,'\'');
-        args.push_back(element);
+    int i = 0, j = 0;    
+    vector<string> v;
+    while(command[i]){
+        if(command[i] == '\''){
+            i++;
+            v.push_back("");
+            while(command[i] != '\''){
+                if(command[i] == '\0'){
+                    v.clear();
+                    return v;
+                }
+                v[j] += command[i];
+                i++;
+            }
+            j++;
+        }
+        i++;
     }
-    return args;
+    return v;
 }
 
 bool is_position(string position){

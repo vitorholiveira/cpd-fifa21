@@ -1,0 +1,46 @@
+#include "queries.hpp"
+
+void query_players(string command, HashPlayers *hash_players, Trie *trie_players){
+    vector<unsigned int> ids = trie_players->query(command.substr(6,command.length() - 1));
+    print_players_table(ids, hash_players);
+}
+
+/*
+void query_users(string command, HashPlayers *hash_players, HashUsers *hash_users){
+    if(!is_number(command.substr(4,command.length() - 1))){
+        cout << "ID do usuário não é um número" << endl;
+        return;
+    }
+}
+*/
+void query_top_positions(string command, HashPlayers *hash_players, HashTags *hash_tags){
+    int size = ranking_size(command);
+    
+    if(size == 0){
+        cout << "O tamanho do ranking esta incorreto!" << endl;
+    }
+    vector<string> args = read_args(command);
+    if(args.size() > 1 || !is_position(args[0])){
+        cout << "Posicao invalida!" << endl;
+        return;
+    }
+    vector<unsigned int> ids = hash_tags->intersec_tags(args);
+    print_players_table(ids, hash_players);
+}
+
+void query_tags(string command, HashPlayers *hash_players, HashTags *hash_tags){
+    vector<string> args = read_args(command);
+    if(has_position(args)){
+        cout << "Uma posicao nao eh uma tag!" << endl;
+        return;
+    }
+    vector<unsigned int> ids = hash_tags->intersec_tags(args);
+    print_players_table(ids, hash_players);
+}
+
+void query_pos_and_tags(string command, HashPlayers *hash_players, HashTags *hash_tags){
+    vector<string> args = read_args(command);
+    vector<unsigned int> ids = hash_tags->intersec_tags(args);
+    print_players_table(ids, hash_players);
+
+}

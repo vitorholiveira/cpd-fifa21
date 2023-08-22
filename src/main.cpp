@@ -1,8 +1,10 @@
-#include "./functions/load_data.cpp"
+#include "./functions/interface.cpp"
 #include <chrono>
 
 int main(int argc, char **argv){
-    int len, open;
+    int len, open, query;
+    string command;
+    vector<unsigned int> ids;
     chrono::time_point<chrono::system_clock> begin, end;
 
     len = 10000;
@@ -22,11 +24,20 @@ int main(int argc, char **argv){
         return 2;
     }
 
-    Player* p = hash_players.query(200458);
-    cout << endl << p->name << ' ' << p->id << ' ' << p->rating << ' ' << p->rating_count << ' ';
-    for(int i = 0; i < p->positions.size() - 1; i++)
-        cout << p->positions[i] << ',';
-    cout <<  p->positions[p->positions.size() - 1] << endl;
+    do{
+        getline(cin, command);
+        if(command.substr(0,6) == "player"){
+            ids = trie_players.query(command.substr(6,command.length()-1));
+            print_players_table(ids, &hash_players);
+        } else if(command.substr(0,4) == "user")
+            ;
+        else if(command.substr(0,3) == "top")
+            ;
+        else if(command.substr(0,4) == "tags")
+            ;
+        else if(command != "quit")
+            cout << "Comando invalido!" << endl;
+    }while(command != "quit");
 
     return 0;
 }

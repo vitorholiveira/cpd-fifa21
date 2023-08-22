@@ -3,11 +3,14 @@
 void Trie::insert(string name, unsigned int id){
     Node* current = root;
     Node* aux;
+    char c;
+    name.erase(remove_if(name.begin(), name.end(), ::isspace), name.end());
     for(int i = 0; i < name.length(); i++){
-        aux = is_child(name[i], current->tail);
+        c = tolower(name[i]);
+        aux = is_child(c, current->tail);
         if(aux == NULL){
             aux = new Node;
-            aux->c = name[i];
+            aux->c = c;
             current->tail.push_back(aux);
         }
         if(i == name.length() - 1) // last char
@@ -29,9 +32,10 @@ vector<unsigned int> Trie::query(string prefix){
     Node* current = root;
     Node* aux;
     vector<unsigned int> v;
+    prefix.erase(remove_if(prefix.begin(), prefix.end(), ::isspace), prefix.end());
 
     for(int i = 0; i < prefix.length(); i++){
-        current = is_child(prefix[i], current->tail);
+        current = is_child(tolower(prefix[i]), current->tail);
         if(current == NULL)
             return v;
     }

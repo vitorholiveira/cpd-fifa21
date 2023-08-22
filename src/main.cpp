@@ -30,17 +30,17 @@ int main(int argc, char **argv){
         getline(cin, command);
         cout << endl;
         command = format_command(command);
-        if(command.substr(0,6) == "player")
+        if(command.substr(0,7) == "player ")
             query_players(command, &hash_players, &trie_players);
-        else if(command.substr(0,4) == "user");
+        else if(command.substr(0,5) == "user ");
             //query_users(command, &hash_players, &hash_users);
         else if(command.substr(0,3) == "top")
             query_top_positions(command, &hash_players, &hash_tags);
-        else if(command.substr(0,4) == "tags")
+        else if(command.substr(0,5) == "tags ")
             query_tags(command, &hash_players, &hash_tags);
-        else if(command.substr(0,8) == "pos&tags")
+        else if(command.substr(0,9) == "pos&tags ")
             query_pos_and_tags(command, &hash_players, &hash_tags);
-        else if(command.substr(0,8) == "sofifaid")
+        else if(command.substr(0,9) == "sofifaid ")
             query_sofifaid(command, &hash_players);
         else if(command != "quit")
             cout << "Comando invalido!" << endl;

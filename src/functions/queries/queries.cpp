@@ -21,7 +21,7 @@ void query_top_positions(string command, HashPlayers *hash_players, HashTags *ha
         return;
     }
     vector<string> args = read_args(command);
-    if(args.size() > 1 || !is_position(args[0])){
+    if(args.size() != 1 || !is_position(args[0])){
         cout << "Posicao invalida!" << endl;
         return;
     }
@@ -31,7 +31,10 @@ void query_top_positions(string command, HashPlayers *hash_players, HashTags *ha
 
 void query_tags(string command, HashPlayers *hash_players, HashTags *hash_tags){
     vector<string> args = read_args(command);
-    if(has_position(args)){
+    if(args.size() == 0){
+        cout << "Tags invalidas!" << endl;
+        return;
+    }else if(has_position(args)){
         cout << "Uma posicao nao eh uma tag!" << endl;
         return;
     }
@@ -41,6 +44,10 @@ void query_tags(string command, HashPlayers *hash_players, HashTags *hash_tags){
 
 void query_pos_and_tags(string command, HashPlayers *hash_players, HashTags *hash_tags){
     vector<string> args = read_args(command);
+    if(args.size() == 0){
+        cout << "Argumentos Invalidos!" << endl;
+        return;
+    }
     vector<unsigned int> ids = hash_tags->intersec_tags(args);
     print_players_table(ids, hash_players);
 

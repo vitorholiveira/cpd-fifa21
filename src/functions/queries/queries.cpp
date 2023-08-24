@@ -5,14 +5,18 @@ void query_players(string command, HashPlayers *hash_players, Trie *trie_players
     print_players_table(ids, hash_players);
 }
 
-/*
+
 void query_users(string command, HashPlayers *hash_players, HashUsers *hash_users){
-    if(!is_number(command.substr(4,command.length() - 1))){
+    string user_id_str = command.substr(5,command.length() - 1);
+    if(!is_number(user_id_str)){
         cout << "ID do usuário não é um número" << endl;
         return;
     }
+    User *u = hash_users->query(stoi(user_id_str));
+
+    print_user_ratings(u, hash_players);
 }
-*/
+
 void query_top_positions(string command, HashPlayers *hash_players, HashTags *hash_tags){
     int size = ranking_size(command);
     
@@ -26,6 +30,21 @@ void query_top_positions(string command, HashPlayers *hash_players, HashTags *ha
         return;
     }
     vector<unsigned int> ids = hash_tags->intersec_tags(args);
+    vector<Rating> positions_ratings;
+    Rating r;
+    Player *p;
+    for(int i = 0; i < ids.size(); i++){
+        p = hash_players->query(ids[i]);
+        r.p_id = ids[i];
+        r.rating = p->rating;
+        positions_ratings.push_back(r);
+    }
+    positions_ratings = sort_ratings(positions_ratings);
+    ids.clear();
+    for(int i = 0; i < size; i++){
+        ids.push_back(positions_ratings[i].p_id);
+    }
+
     print_players_table(ids, hash_players);
 }
 

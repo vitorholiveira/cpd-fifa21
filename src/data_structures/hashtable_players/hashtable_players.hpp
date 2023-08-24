@@ -17,12 +17,12 @@ typedef struct p{
 } Player;
 
 class HashPlayers{
-    unsigned int len;
-    vector<Player*> table;
     int f_hash(unsigned int n){
         return (n % len);
     };
     public:
+        vector<Player*> table;
+        unsigned int len;
         // CONSTRUCTOR
         HashPlayers(int n);
         // METHODS

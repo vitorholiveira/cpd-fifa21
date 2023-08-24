@@ -16,6 +16,18 @@ int ranking_size(string command){
     return 0;
 }
 
+string format_command(string command){
+    string formated;
+    for(int i = 0; i < command.length(); i++){
+        if(isspace(command[i]))
+            formated += ' ';
+        else
+            formated += command[i];
+        while(isspace(command[i]) && isspace(command[i+1]))i++;
+    }
+    return formated;
+}
+
 vector<string> read_args(string command){
     int i = 0, j = 0;    
     vector<string> v;
@@ -55,46 +67,53 @@ bool has_position(vector<string> args){
 }
 
 void print_players_table(vector<unsigned int> ids, HashPlayers *hash){
-    Player *p;
-    if(ids.size() == 0)
-        cout << "Nenhum jogador encontrado!" << endl;
-    for(int i = 0; i < ids.size(); i++){
-        p = hash->query(ids[i]);
-        if(p != NULL){
-            cout << p->id << '\t' << p->name << endl;
-            for(int j = 0; j < p->positions.size() - 1; j++)
-                cout << p->positions[j] << ", ";
-            cout << p->positions[p->positions.size() - 1] << endl;
-            cout << p->rating << '\t' << p->rating_count << endl << endl;
-        }
-    }
+    print_players_table(ids, hash, ids.size());
 }
 
-string format_command(string command){
-    string formated;
-    for(int i = 0; i < command.length(); i++){
-        if(isspace(command[i]))
-            formated += ' ';
-        else
-            formated += command[i];
-        while(isspace(command[i]) && isspace(command[i+1]))i++;
+void print_players_table(vector<unsigned int> ids, HashPlayers *hash, int size){
+    Player *p;
+    vector<Player> players;
+    if(ids.size() == 0){
+        cout << "Nenhum jogador encontrado!" << endl;
+        return;
     }
-    return formated;
+
+    for(int i = 0; i < ids.size(); i++){
+        p = hash->query(ids[i]);
+        if(p != NULL)
+            players.push_back(*p);
+    }
+    players = sort_players(players);
+
+    cout << "sofifa_id" << '\t' << "rating" << "\t\t" << "count" << '\t' << "name and positions" << endl;
+
+    for(int i = 0; i < size; i++){
+        // pritn id, nome, rating e rating count
+        cout << players[i].id << "\t\t" << players[i].rating << "\t\t" << players[i].rating_count << '\t' << players[i].name << " | ";
+        // print das posicoes
+        for(int j = 0; j < players[i].positions.size() - 1; j++)
+            cout << players[i].positions[j] << ",";
+        cout << players[i].positions[players[i].positions.size() - 1] << endl;
+
+    }
 }
 
 void print_user_ratings(User *u, HashPlayers *hash_players){
     Player *p;
     u->ratings = sort_ratings(u->ratings);
+
+    cout << "sofifa_id" << '\t'<< "global_rating" << '\t' << "count" << '\t' << "rating" << '\t' <<  "name" << endl;
+
     for(int i = 0; i < 20; i++){
         p = hash_players->query(u->ratings[i].p_id);
-        cout << p->id << '\t' << p->name << endl << p->rating << '\t' << p->rating_count << '\t' << u->ratings[i].rating << endl << endl;
+        cout << p->id << "\t\t"  << p->rating << "\t\t"  << p->rating_count << '\t' << u->ratings[i].rating << '\t' << p->name << endl;
     }
 }
 
 vector<Rating> sort_ratings(vector<Rating> ratings){
     int i, j;
     Rating key;
-    
+    // insertion sort
     for (i = 1; i < ratings.size(); i++) {
         key = ratings[i];
         j = i - 1;
@@ -104,6 +123,21 @@ vector<Rating> sort_ratings(vector<Rating> ratings){
         }
         ratings[j + 1] = key;
     }
-
     return ratings;
+}
+
+vector<Player> sort_players(vector<Player> players){
+    int i, j;
+    Player key;
+    // insertion sort
+    for (i = 1; i < players.size(); i++) {
+        key = players[i];
+        j = i - 1;
+        while (j >= 0 && players[j].rating < key.rating) {
+            players[j + 1] = players[j];
+            j = j - 1;
+        }
+        players[j + 1] = key;
+    }
+    return players;
 }

@@ -19,6 +19,7 @@ void query_users(string command, HashPlayers *hash_players, HashUsers *hash_user
 
 void query_top_positions(string command, HashPlayers *hash_players, HashTags *hash_tags){
     int size = ranking_size(command);
+    vector<unsigned int> ids;
     
     if(size == 0){
         cout << "O tamanho do ranking esta incorreto!" << endl;
@@ -29,23 +30,9 @@ void query_top_positions(string command, HashPlayers *hash_players, HashTags *ha
         cout << "Posicao invalida!" << endl;
         return;
     }
-    vector<unsigned int> ids = hash_tags->intersec_tags(args);
-    vector<Rating> positions_ratings;
-    Rating r;
-    Player *p;
-    for(int i = 0; i < ids.size(); i++){
-        p = hash_players->query(ids[i]);
-        r.p_id = ids[i];
-        r.rating = p->rating;
-        positions_ratings.push_back(r);
-    }
-    positions_ratings = sort_ratings(positions_ratings);
-    ids.clear();
-    for(int i = 0; i < size; i++){
-        ids.push_back(positions_ratings[i].p_id);
-    }
+    ids = hash_tags->intersec_tags(args);
 
-    print_players_table(ids, hash_players);
+    print_players_table(ids, hash_players, size);
 }
 
 void query_tags(string command, HashPlayers *hash_players, HashTags *hash_tags){

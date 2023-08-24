@@ -12,16 +12,15 @@ void HashPlayers::insert(Player p){
     Player* current = table[key];
     Player* p_new = new Player;
     *p_new = p;
-
-    if(current != NULL) {
-        while(current->tail != NULL && current->id != p.id)
-            current = current->tail;
-
-        if(current->id != p.id){
-            current->tail = p_new;
-        }
-    } else {
+    if(current == NULL){
         table[key] = p_new;
+        return;
+    }
+    while(current->tail != NULL && current->id != p.id)
+        current = current->tail;
+
+    if(current->id != p.id){
+        current->tail = p_new;
     }
 
 }

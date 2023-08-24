@@ -26,14 +26,14 @@ int load_players(HashPlayers *hash_players, Trie* trie_players, HashTags *hash_t
         getline(file, element);
         if(element[0] != '"'){
             p.positions.push_back(element); // tem só uma posição
-            hash_tags->insert(element, p.id);
+            hash_tags->insert(element, p.id); // insere o a posicao como uma tag
         }else{
             element[element.length() - 1] = '\0'; // remove fecha aspas
             stringstream positions(element);
             while(getline(positions, element, ',')){
                 element = &element[1]; // remove espaço e aspa abre aspas na primeira exec
                 p.positions.push_back(element);
-                hash_tags->insert(element, p.id);
+                hash_tags->insert(element, p.id); // insere a posicao como uma tag
             }
         }
         // INSERE DADOS
@@ -103,15 +103,4 @@ int load_tags(HashTags *hash_tags, string filename){
 
     file.close();
     return 1;
-}
-
-void load_positions(HashPlayers *hash_players, HashTags *hash_tags){
-    Player* current;
-    // percorre a tabela
-    for(int i=0; i < hash_players->len; i++){
-        current = hash_players->table[i];
-        while(current!= NULL) // percorre a linha da tabela
-            for(int j = 0; j < current->positions.size(); j++) // percorre o vetor de posicoes do jogador
-                hash_tags->insert(current->positions[j], current->id);
-    }
 }

@@ -20,15 +20,15 @@ int main(int argc, char **argv){
     end = chrono::system_clock::now();
     chrono::duration<double> time = end - begin;
 
-    cout << "Tempo de inicializacao: " << time.count() << "s" << endl;
+    cout << endl << "Tempo de inicializacao: " << time.count() << "s" << endl;
     
     if(!open){
-        cout << "Nao foi possivel abrir os arquivos CSV" << endl;
+        cout << endl << "Nao foi possivel abrir os arquivos CSV" << endl;
         return 2;
     }
 
     do{
-        cout << endl;
+        cout << endl << "-----------------------------------------------------------------------------------------" << endl << endl;
         getline(cin, command);
         cout << endl;
         command = format_command(command);

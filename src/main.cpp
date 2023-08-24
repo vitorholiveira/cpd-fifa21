@@ -8,15 +8,14 @@ int main(int argc, char **argv){
     vector<string> args;
     chrono::time_point<chrono::system_clock> begin, end;
 
-    len = 10000;
-    HashPlayers hash_players(len);
-    HashTags hash_tags(len);
-    HashUsers hash_users(len);
+    len = 9000;
+    HashPlayers hash_players(10001);
+    HashUsers hash_users(150001);
+    HashTags hash_tags(457);
     Trie trie_players;
 
     begin = chrono::system_clock::now();
     open = load(&hash_players, &trie_players, &hash_tags, &hash_users);
-    //load_positions(&hash_players, &hash_tags);
     end = chrono::system_clock::now();
     chrono::duration<double> time = end - begin;
 

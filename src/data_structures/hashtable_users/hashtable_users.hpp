@@ -19,12 +19,12 @@ typedef struct u{
 } User;
 
 class HashUsers{
-    unsigned int len;
-    vector<User*> table;
     int f_hash(unsigned int n){
         return (n % len);
     };
     public:
+        unsigned int len;
+        vector<User*> table;
         // CONSTRUCTOR
         HashUsers(int n);
         // METHODS

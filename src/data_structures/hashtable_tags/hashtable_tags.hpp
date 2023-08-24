@@ -15,14 +15,14 @@ typedef struct t {
 } Tag;
 
 class HashTags {
-    unsigned int len;
-    vector<Tag*> table;
     int f_hash(string tag){
         int key = 0;
         for(int i = 0; i < tag.length(); i++) key += tag[i];
-        return (key % len);
+        return (key*13 % len);
     };
     public:
+        unsigned int len;
+        vector<Tag*> table;
         // CONSTRUCTOR
         HashTags(int n);
         // METHODS

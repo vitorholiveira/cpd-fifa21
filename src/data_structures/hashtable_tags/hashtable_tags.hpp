@@ -10,6 +10,7 @@ using namespace std;
 typedef struct t {
     string tag;
     vector<unsigned int> ids;
+    vector<float> rating;
     t* tail = NULL;
 } Tag;
 
